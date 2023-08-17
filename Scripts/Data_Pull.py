@@ -1,3 +1,8 @@
+# Created 16 Aug 2023
+# Pulling data from Strava API for NLP project
+# Works in tandem with NLP.ipynb 
+
+
 #Import everything I will need for this 
 import requests
 import urllib3
