@@ -6,33 +6,34 @@
 import requests
 import urllib3
 import os
+import sys
 from dotenv import load_dotenv
 import numpy as np 
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-#from pandas.io.json import json_normalize
-import datetime as dt
-from scipy.optimize import curve_fit
-import scipy.stats as stats
 
+sys.path.append('../')
 
 #Disable warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 #Get env variables
-#client_id = str(os.getenv('STRAVA_CLIENT_ID'))
-##client_secret = str(os.getenv('STRAVA_SECRET_CLIENT'))
-#michael_tok = str(os.getenv('MICHAEL_TOK'))
-#erika_tok = str(os.getenv('ERIKA_TOK'))
 
-print(erika_tok)
+env_path = os.path.join('../.env')
 
 
+load_dotenv(dotenv_path=env_path)
+
+client_id = str(os.getenv('STRAVA_CLIENT_ID'))
+client_secret = str(os.getenv('STRAVA_SECRET_CLIENT'))
+michael_tok = str(os.getenv('MICHAEL_TOK'))
+erika_tok = str(os.getenv('ERIKA_TOK'))
+nick_tok = str(os.getenv('NICK_TOK'))
+
+print(nick_tok)
 
 refresh_tokens = {'Michael' : michael_tok, 
-                  'Erika' :  erika_tok
-                    }
+                  'Erika' :  erika_tok}
+                  #'Nick' : nick_tok }
 
 
 #Urls 
@@ -48,8 +49,8 @@ for person, r_token in refresh_tokens.items():
     for page in range(2):
         # Things we need for the API to give us the data
         payload = {
-            'client_id': "YOUR_CLIENT_ID",
-            'client_secret': 'YOUR_CLIENT_SECRET',
+            'client_id': client_id,
+            'client_secret': client_secret,
             'refresh_token': r_token,
             'grant_type': "refresh_token",
             'f': 'json'
@@ -69,9 +70,6 @@ for person, r_token in refresh_tokens.items():
 
 # Concatenate the datasets
 df = pd.concat([pd.concat(person_data, ignore_index=True) for person_data in datasets.values()], ignore_index=True)
-  
-#datasets
 
 
-#df = pd.concat(datasets.values(), ignore_index=True)
-
+print(df.info())
