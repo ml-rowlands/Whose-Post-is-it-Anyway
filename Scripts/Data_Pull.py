@@ -56,20 +56,21 @@ for person, r_token in refresh_tokens.items():
             'f': 'json'
         }
 
-        print("Requesting Token...\n")
+        print(f"Requesting Token... {person,page}...\n")
         res = requests.post(auth_url, data=payload)
         access_token = res.json()['access_token']
-        print("Access Token = {}\n".format(access_token))
 
         header = {'Authorization': 'Bearer ' + access_token}
         param = {'per_page': 200, 'page': page}
 
         data_page = pd.json_normalize(requests.get(activites_url, headers=header, params=param).json())
-        data_page['Athlete'] = person
+        data_page['athlete'] = person
         datasets[person].append(data_page)
 
 # Concatenate the datasets
 df = pd.concat([pd.concat(person_data, ignore_index=True) for person_data in datasets.values()], ignore_index=True)
 
+features = ['name', 'Athlete', 'sport_type', 'distance', 'elapsed_time', 'total_elevation_gain', 'kudo_count', 'start_latlng', 
+            'average_speed', 'max_speed', 'private', 'athlete_count', 'start_date', 'average_heartrate', 'elev_high']
 
-print(df.info())
+df = df[features]
