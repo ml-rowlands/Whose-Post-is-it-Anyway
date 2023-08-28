@@ -10,6 +10,7 @@ import sys
 from dotenv import load_dotenv
 import numpy as np 
 import pandas as pd
+from geopy.geocoders import Nominatim
 
 sys.path.append('../')
 
@@ -70,7 +71,34 @@ for person, r_token in refresh_tokens.items():
 # Concatenate the datasets
 df = pd.concat([pd.concat(person_data, ignore_index=True) for person_data in datasets.values()], ignore_index=True)
 
-features = ['name', 'Athlete', 'sport_type', 'distance', 'elapsed_time', 'total_elevation_gain', 'kudo_count', 'start_latlng', 
+features = ['name', 'athlete', 'sport_type', 'distance', 'elapsed_time', 'total_elevation_gain', 'kudos_count', 'start_latlng', 
             'average_speed', 'max_speed', 'private', 'athlete_count', 'start_date', 'average_heartrate', 'elev_high']
 
 df = df[features]
+
+geolocator = Nominatim(user_agent="geoapiExercises")
+
+def convert_to_str(lat_lon):
+    if isinstance(lat_lon, list) and len(lat_lon) == 2:
+        return f"{lat_lon[0]},{lat_lon[1]}".replace(" ", "")
+        #return str(tuple(lat_lon)).replace(" ", "")
+    else:
+        return None  # or some other value that indicates the data was not valid
+
+df['lat_lon_str'] = df['start_latlng'].apply(convert_to_str)
+
+def pull_state(lat_lon):
+    if lat_lon is not None:
+        return geolocator.reverse(lat_lon).raw['address'].get('state', '')
+    else:
+        return None
+
+df['state'] = df['lat_lon_str'].apply(pull_state)
+
+def pull_city(lat_lon):
+    if lat_lon is not None:
+        return geolocator.reverse(lat_lon).raw['address'].get('city', '')
+    else:
+        return None
+
+df['city'] = df['lat_lon_str'].apply(pull_city)
