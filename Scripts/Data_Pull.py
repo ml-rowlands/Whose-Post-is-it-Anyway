@@ -29,11 +29,11 @@ michael_tok = str(os.getenv('MICHAEL_TOK'))
 erika_tok = str(os.getenv('ERIKA_TOK'))
 nick_tok = str(os.getenv('NICK_TOK'))
 
-print(nick_tok)
+print(erika_tok)
 
 refresh_tokens = {'Michael' : michael_tok, 
-                  'Erika' :  erika_tok}
-                  #'Nick' : nick_tok }
+                  'Erika' :  erika_tok,
+                  'Nick' : nick_tok }
 
 
 #Urls 
@@ -46,7 +46,7 @@ for person, r_token in refresh_tokens.items():
     # Initialize the person's dataset
     datasets[person] = []
     
-    for page in range(2):
+    for page in range(6):
         # Things we need for the API to give us the data
         payload = {
             'client_id': client_id,
