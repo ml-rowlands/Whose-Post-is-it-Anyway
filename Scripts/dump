@@ -1,0 +1,50 @@
+geolocator = Nominatim(user_agent="geoNLPExercise")
+#geolocator = Photon()
+
+def convert_to_str(lat_lon):
+    if isinstance(lat_lon, list) and len(lat_lon) == 2:
+        return f"{lat_lon[0]},{lat_lon[1]}".replace(" ", "")
+        #return str(tuple(lat_lon)).replace(" ", "")
+    else:
+        return None  # or some other value that indicates the data was not valid
+
+df['lat_lon_str'] = df['start_latlng'].apply(convert_to_str)
+
+def pull_state(lat_lon):
+    if lat_lon is not None:
+        return geolocator.reverse(lat_lon).raw['address'].get('state', '')
+    else:
+        return None
+
+df['state'] = df['lat_lon_str'].apply(pull_state)
+
+def pull_city(lat_lon):
+    if lat_lon is not None:
+        return geolocator.reverse(lat_lon).raw['address'].get('city', '')
+    else:
+        return None
+
+df['city'] = df['lat_lon_str'].apply(pull_city)
+
+
+
+
+
+from sklearn.inspection import plot_partial_dependence
+
+athletes={0:'Erika',1:'Michael', 2:'Nick'}
+# Plotting PDP for a specific feature (e.g., 'distance')
+features = ['average_heartrate']
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+
+for i,athlete in athletes.items():
+    plot_partial_dependence(gb_classifier, X_train, features, target=athlete, ax=axes[i])
+    axes[i].set_title(f"Athlete {athlete}")
+
+plt.suptitle(f"Partial Dependence Plot for {features} across Athletes")
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.show()
+
+
