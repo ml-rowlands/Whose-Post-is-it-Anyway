@@ -26,14 +26,14 @@ with st.sidebar:
     name = st.text_input('Title:', 'Morning Run')
 
     # Categorical features (dropdown)
-    sport_type = st.selectbox('Sport Type:', ['Run', 'TrailRun','Ride', 'NordicSki', 'BackcountrySki'])
+    sport_type = st.selectbox('Sport Type:', ['Run', 'Trail Run','Ride', 'Nordic Ski', 'Backcountry Ski'])
     private = st.selectbox('Privacy:', ['Private', 'Public'])
 
     # Numerical features (sliders)
     st.subheader("Numerical Features")
     with st.expander("Run Data"):
         distance = st.slider('Distance (km):', min_value=0, max_value=50)
-        elapsed_time = st.slider('Workout Time (s):', min_value=0, max_value=100000)
+        elapsed_time_m = st.slider('Workout Time (min):', min_value=0, max_value=600)
         average_heartrate = st.slider('Average Heartrate(bpm):', min_value=100, max_value=200)
         max_speed = st.slider('Max Speed (km/hr):', min_value=0, max_value=35)
         total_elevation_gain = st.slider('Vert (m):', min_value=0, max_value=10000)
@@ -44,6 +44,8 @@ with st.sidebar:
         athlete_count = st.slider("Total Group Size:", min_value=0, max_value=10)
 
 # Calculate speed
+sport_type = sport_type.replace(" ", "")
+elapsed_time = elapsed_time_m * 60
 average_speed = distance / (elapsed_time + 0.1)
 
     
