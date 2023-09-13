@@ -1,6 +1,6 @@
 # Created 16 Aug 2023
 # Pulling data from Strava API for NLP project
-# Works in tandem with NLP.ipynb 
+# Works in tandem with sp_model_selection.py
 
  
 import requests
@@ -10,7 +10,6 @@ import sys
 from dotenv import load_dotenv
 import numpy as np 
 import pandas as pd
-from geopy.geocoders import Nominatim, Photon
 
 sys.path.append('../')
 
@@ -71,13 +70,11 @@ for person, r_token in refresh_tokens.items():
 # Concatenate the datasets
 df = pd.concat([pd.concat(person_data, ignore_index=True) for person_data in datasets.values()], ignore_index=True)
 
-features = ['name', 'athlete', 'sport_type', 'distance', 'elapsed_time', 'total_elevation_gain', 'kudos_count', #'start_latlng', 
-           'average_speed', 'max_speed', 'private', 'athlete_count', #'start_date',
-           'average_heartrate', 'elev_high']
+features = ['name', 'athlete', 'sport_type', 'distance', 'elapsed_time', 'total_elevation_gain', 'kudos_count',
+           'average_speed', 'max_speed', 'private', 'athlete_count', 'average_heartrate', 'elev_high']
 
 df = df[features]
 
-#df = df[df['message'] != 'Bad Request']
 
 
 

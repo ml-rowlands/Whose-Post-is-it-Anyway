@@ -21,8 +21,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.compose import ColumnTransformer
 
 
-from geopy.geocoders import Nominatim, Photon
-
 sys.path.append("../")
 from Scripts.Data_Pull import *
 from Scripts.Location_Filter import *
