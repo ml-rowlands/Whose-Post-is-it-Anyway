@@ -30,6 +30,7 @@ from joblib import dump, load
 
 
 
+
 #Drop Bad Requests which have no name value
 df=df.dropna(axis=0, subset=['name'])
 
@@ -100,6 +101,7 @@ if test_accuracy > 0.75:
     best_pipeline.fit(X,y)
     # Save the refitted model
     dump(best_pipeline, 'best_model.joblib')
+    
 else:
     # Take other actions, like revisiting feature engineering, etc.
     print("The new model is not performing at an accuracy of 75{%} or greater, so the model was not refit!")

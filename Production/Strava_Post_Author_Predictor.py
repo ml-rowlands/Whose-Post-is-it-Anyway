@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Load the trained model
-model = load('best_model.joblib')
+model = load('./best_model.joblib')
 
 # App title
 st.title('Strava Post Author Predictor')
