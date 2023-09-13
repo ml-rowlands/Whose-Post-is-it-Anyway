@@ -9,7 +9,7 @@ This project aims to predict the author of a Strava post based on various featur
 
 - **Data Collection**: Automated script for pulling data.
 - **Machine Learning Model**: Automatically hyperparameter tunes and selects the best performing machine learning pipeline for predictions and dumps the model for use in a web app.
-- **Web App**: A Streamlit web app that allows users to input feature values and see prediction probabilities. See an example [here](https://strava-post-classifier.streamlit.app/)
+- **Web App**: A Streamlit web app that allows users to input feature values and see prediction probabilities. See an example [here](https://strava-post-classifier.streamlit.app/).
 
 ## Requirements
 
